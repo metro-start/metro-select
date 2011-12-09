@@ -1,6 +1,6 @@
 .sel-opt {
     cursor: pointer;
-    opacity: 0.1;
+    opacity: 0.5;
     -webkit-transition: opacity .25s linear;
 }
 .sel-active {

@@ -23,7 +23,7 @@
         //left side button
         $("#" + uniq + "sel-0").click(function () {
             //if left button clicked, swipe left
-            select.val($("#" + uniq + "sel-0").text());
+            select.prop("selectedIndex", 0);
             $("#" + uniq + "sel-0").addClass(settings['active-class']);
             $("#" + uniq + "sel-1").removeClass(settings['active-class']);
             $("#" + uniq + "selector").animate({scrollLeft: 0}, "fast");
@@ -33,23 +33,20 @@
         //right side button
         $("#" + uniq + "sel-1").click(function () {
             //if the right button clicked swipe right
-            select.val($("#" + uniq + "sel-1").text());
+            select.prop("selectedIndex", 1);
             $("#" + uniq + "sel-0").removeClass(settings['active-class']);
             $("#" + uniq + "sel-1").addClass(settings['active-class']);
-            $("#" + uniq + "selector").animate({scrollLeft: $("#" + uniq + "sel-1").offset().left}, "fast");
+            $("#" + uniq + "selector").animate({scrollLeft: $("#" + uniq + "sel-1").offset().left + max_width}, "fast");
+            //$("#" + uniq + "selector").animate({scrollLeft: max_width}, "fast");
             settings.onchange();
         });
 
         //setup the view and show what needs to be shown
-        sel.css('height', $("#" + uniq + "sel-opt").css('font-size'));
+        //sel.css('height', $("#" + uniq + "sel-opt").css('font-size'));
         sel.css('width', max_width + max_width/parseInt(settings['peeking']));
         sel.css('overflow', 'hidden');
         
         //set the default visibilities
-        if(select.val() == $("#" + uniq + "sel-1").text()) { 
-            $("#" + uniq + "sel-1").click();
-        } else {
-            $("#" + uniq + "sel-0").click();
-        }
+        $("#" + uniq + "sel-" + select.prop("selectedIndex")).click();
     };
 })(jQuery);

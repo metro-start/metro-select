@@ -5,7 +5,7 @@
 .sel-opt {
     cursor: pointer;
     opacity: 0.5;
-    margin-right: 5%;
+    margin-right: 3%;
     -webkit-transition: opacity .25s linear;
     display: inline;
 }

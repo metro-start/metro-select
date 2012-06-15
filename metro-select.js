@@ -28,6 +28,10 @@
 
         //set the default visibilities
 //		console.log("#" + uniq + "sel-" + select.prop('selectedIndex'));
-        $("#" + uniq + "sel-" + select.prop('selectedIndex')).click();
+        //$("#" + uniq + "sel-" + select.prop('selectedIndex')).click();
+		var elem = $("#" + uniq + "sel-" + select.prop('selectedIndex'));
+		select.attr('selectedIndex', elem.attr('id').replace(uniq + 'sel-', ''));
+		$('.' + uniq + 'sel').removeClass(settings['active-class']);
+		elem.addClass(settings['active-class']);
     };
 })(jQuery);

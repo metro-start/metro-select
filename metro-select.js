@@ -15,7 +15,7 @@
         select.hide();
         var max_width = 0;
         select.children().each(function(key, val) {
-            var opt = $("<span class='sel-opt " + uniq + "sel' id='" + uniq + "sel-" + key + "'>" + val.text + "</span>");
+			var opt = $("<span class='sel-opt " + uniq + "sel " + $(val).prop('class') + "' id='" + uniq + "sel-" + key + "'>" + val.text + "</span>");
             sel.append(opt);
         });
 

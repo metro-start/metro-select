@@ -29,8 +29,12 @@
         //set the default visibilities
 //		console.log("#" + uniq + "sel-" + select.prop('selectedIndex'));
         //$("#" + uniq + "sel-" + select.prop('selectedIndex')).click();
-		var elem = $("#" + uniq + "sel-" + select.prop('selectedIndex'));
-		select.attr('selectedIndex', elem.attr('id').replace(uniq + 'sel-', ''));
+        // console.log(select);
+        // console.log(select.attr('selectedIndex'));
+		var elem = $("#" + uniq + "sel-" + select.attr('selectedIndex'));
+//        console.log(elem)
+//        console.log($('#menu'))
+//		select.attr('selectedIndex', elem.attr('id').replace(uniq + 'sel-', ''));
 		$('.' + uniq + 'sel').removeClass(settings['active-class']);
 		elem.addClass(settings['active-class']);
     };

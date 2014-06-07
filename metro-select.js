@@ -20,10 +20,14 @@
         });
 
         $('.' + uniq + 'sel').click(function () {
-            select.attr('selectedIndex', $(this).attr('id').replace(uniq + 'sel-', ''));
-            $('.' + uniq + 'sel').removeClass(settings['active-class']);
-			$(this).addClass(settings['active-class']);
-            settings.onchange($(this).text());
+            var oldVal = select.attr('selectedIndex');
+            var newVal = $(this).attr('id').replace(uniq + 'sel-', '');
+            if (oldVal !== newVal) {
+                select.attr('selectedIndex', newVal);
+                $('.' + uniq + 'sel').removeClass(settings['active-class']);
+    			$(this).addClass(settings['active-class']);
+                settings.onchange($(this).text());
+            }
         });
 
         //set the default visibilities
@@ -45,7 +49,5 @@
             'opacity': '1',
             '-webkit-transition': 'opacity .25s linear'
         });
-
-
     };
 })(jQuery);

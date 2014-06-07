@@ -30,21 +30,21 @@
 		var elem = $("#" + uniq + "sel-" + select.attr('selectedIndex'));
 		elem.addClass(settings['active-class']);
 
-        // jss.set('.inner-selector', {
-        //     'display': 'inline-block',
-        //     'white-space': 'nowrap',
-        // });
-        // jss.set('.sel-opt', {
-        //     'cursor': 'pointer',
-        //     'opacity': '0.5',
-        //     'margin-right': '3%',
-        //     '-webkit-transition': 'opacity .25s linear',
-        //     'display': 'inline',
-        // });
-        // jss.set('.' + settings['active-class'], {
-        //     'opacity': '1',
-        //     '-webkit-transition': 'opacity .25s linear'
-        // });
+        jss.set('.inner-selector', {
+            'display': 'inline-block',
+            'white-space': 'nowrap',
+        });
+        jss.set('.sel-opt', {
+            'cursor': 'pointer',
+            'opacity': '0.5',
+            'margin-right': '3%',
+            '-webkit-transition': 'opacity .25s linear',
+            'display': 'inline',
+        });
+        jss.set('.' + settings['active-class'], {
+            'opacity': '1',
+            '-webkit-transition': 'opacity .25s linear'
+        });
 
 
     };

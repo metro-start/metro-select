@@ -6,12 +6,12 @@
             'onchange'          : function(){}
         }, options);
 
+        var select = this;
         var uniq = this.attr("id") + "-";
         var sel = $("<div id='" + uniq + "selector'></div>");
-        var select = this;
         sel.attr("class", select.attr("class"));
         select.parent().append(sel);
-        
+
         select.hide();
         var max_width = 0;
         select.children().each(function(key, val) {
@@ -23,19 +23,29 @@
             select.attr('selectedIndex', $(this).attr('id').replace(uniq + 'sel-', ''));
             $('.' + uniq + 'sel').removeClass(settings['active-class']);
 			$(this).addClass(settings['active-class']);
-            settings.onchange();
+            settings.onchange($(this).text());
         });
 
         //set the default visibilities
-//		console.log("#" + uniq + "sel-" + select.prop('selectedIndex'));
-        //$("#" + uniq + "sel-" + select.prop('selectedIndex')).click();
-        // console.log(select);
-        // console.log(select.attr('selectedIndex'));
 		var elem = $("#" + uniq + "sel-" + select.attr('selectedIndex'));
-//        console.log(elem)
-//        console.log($('#menu'))
-//		select.attr('selectedIndex', elem.attr('id').replace(uniq + 'sel-', ''));
-		$('.' + uniq + 'sel').removeClass(settings['active-class']);
 		elem.addClass(settings['active-class']);
+
+        jss.set('.inner-selector', {
+            'display': 'inline-block',
+            'white-space': 'nowrap',
+        });
+        jss.set('.sel-opt', {
+            'cursor': 'pointer',
+            'opacity': '0.5',
+            'margin-right': '3%',
+            '-webkit-transition': 'opacity .25s linear',
+            'display': 'inline',
+        });
+        jss.set('.' + settings['active-class'], {
+            'opacity': '1',
+            '-webkit-transition': 'opacity .25s linear'
+        });
+
+
     };
 })(jQuery);

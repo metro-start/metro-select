@@ -5,12 +5,12 @@
   // then we're working in a Node-like environment. Use require to load
   // the jQuery object that the module system is using and pass it in.
   if(typeof module === "object" && typeof module.exports === "object") {
-    factory(require("jquery"), window, document);
+    factory(require("jquery"), require("jss"), window, document);
   }
   // Otherwise, we're working in a browser, so just pass in the global
   // jQuery object.
   else {
-    factory(jQuery, window, document);
+    factory(jQuery, jss, window, document);
   }
 }(function($, window, document, undefined) {
   // This code will receive whatever jQuery object was passed in from

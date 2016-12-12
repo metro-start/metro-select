@@ -4,6 +4,6 @@
     "main": "metro-select.js",
     "dependencies": {
         "jquery": "*",
-    "jss": "git+https://github.com/Box9/jss.git",
+	 "jss": "git+https://github.com/Box9/jss.git"
     }
 }

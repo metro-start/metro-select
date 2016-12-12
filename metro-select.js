@@ -12,17 +12,23 @@
   else {
     factory(jQuery, jss, window, document);
   }
-}(function($, window, document, undefined) {
+}(function($, jss, window, document, undefined) {
   // This code will receive whatever jQuery object was passed in from
   // the function above and will attach the tipso plugin to it.
     $.fn.metroSelect = function(options) {
         var settings = $.extend( {
+            'initial'           : '0',
             'peeking'           : '2',
             'active-class'      : 'sel-active',
             'onchange'          : function(){}
         }, options);
 
         var select = this;
+        if (!!settings.initial)
+        {
+            select.attr('selectedIndex', settings.initial);
+        }
+
         var uniq = this.attr("id") + "-";
         var sel = $("<div id='" + uniq + "selector'></div>");
         sel.attr("class", select.attr("class"));

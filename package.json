@@ -1,9 +1,14 @@
 {
-    "name": "metro-select",
-    "version": "1.0.6",
-    "main": "metro-select.js",
-    "dependencies": {
-        "jquery": "*",
-	 "jss": "git+https://github.com/Box9/jss.git"
-    }
+  "name": "metro-select",
+  "version": "1.0.7",
+  "main": "metro-select.js",
+  "dependencies": {
+    "grunt-contrib-jshint": "^1.1.0",
+    "jquery": "*",
+    "jshint": "^2.9.4",
+    "jss": "git+https://github.com/Box9/jss.git"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  }
 }

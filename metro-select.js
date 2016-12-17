@@ -14,62 +14,74 @@
   }
 }(function($, jss, window, document, undefined) {
   // This code will receive whatever jQuery object was passed in from
-  // the function above and will attach the tipso plugin to it.
-    $.fn.metroSelect = function(options) {
-        var settings = $.extend( {
-            'initial'           : '0',
-            'peeking'           : '2',
-            'active-class'      : 'sel-active',
-            'onchange'          : function(){}
-        }, options);
+  // the function above and will attach the plugin to it.
 
-        var select = this;
-        if (!!settings.initial)
-        {
-            select.attr('selectedIndex', settings.initial);
+  var defaults = {
+    initial           : '',
+    peeking           : 2,
+    active_class      : 'metroselect-active',
+    option_class      : 'metroselect-option',
+    container_class   : 'metroselect-container',
+    onchange          : function(){}
+  };
+
+  function MetroSelect(select, options) {
+        this.settings = $.extend(defaults, options);
+        this.metroSelect = $("<div class='" + this.settings.container_class + "'></div>");
+    }
+
+    MetroSelect.prototype.init = function(select) {
+        select.parent().append(this.metroSelect);
+        select.hide();
+
+        var children = select.children();
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            var childElement = $("<span class='" + this.settings.option_class + "'>" + children[i].text + "</span>");
+            childElement.click(this.select_child.bind(this, children[i].text));
+
+            this.metroSelect.append(childElement);
         }
 
-        var uniq = this.attr("id") + "-";
-        var sel = $("<div id='" + uniq + "selector'></div>");
-        sel.attr("class", select.attr("class"));
-        select.parent().append(sel);
-
-        select.hide();
-        var max_width = 0;
-        select.children().each(function(key, val) {
-			var opt = $("<span class='sel-opt " + uniq + "sel " + $(val).prop('class') + "' id='" + uniq + "sel-" + key + "'>" + val.text + "</span>");
-            sel.append(opt);
-        });
-
-        $('.' + uniq + 'sel').click(function () {
-            var oldVal = select.attr('selectedIndex');
-            var newVal = $(this).attr('id').replace(uniq + 'sel-', '');
-            if (oldVal !== newVal) {
-                select.attr('selectedIndex', newVal);
-                $('.' + uniq + 'sel').removeClass(settings['active-class']);
-    			$(this).addClass(settings['active-class']);
-                settings.onchange($(this).text());
-            }
-        });
-
-        //set the default visibilities
-		var elem = $("#" + uniq + "sel-" + select.attr('selectedIndex'));
-		elem.addClass(settings['active-class']);
-
-        jss.set('.inner-selector', {
-            'display': 'inline-block',
-            'white-space': 'nowrap',
-        });
-        jss.set('.sel-opt', {
+        jss.set('.' + this.settings.option_class, {
+            'display': 'inline',
             'cursor': 'pointer',
             'opacity': '0.5',
             'margin-right': '3%',
             '-webkit-transition': 'opacity .25s linear',
-            'display': 'inline',
         });
-        jss.set('.' + settings['active-class'], {
+        jss.set('.' + this.settings.active_class, {
             'opacity': '1',
             '-webkit-transition': 'opacity .25s linear'
         });
+
+        //set the default visibilities
+        this.select_child(this.settings.initial);
+    };
+
+    MetroSelect.prototype.select_child = function(childText) {
+        var selectedChild = this.metroSelect.find(":contains('" + childText + "')");
+        if (selectedChild.length === 0) {
+            selectedChild = this.metroSelect.find(">:first-child");
+        }
+
+        var child = $(selectedChild);
+        child.siblings().removeClass(this.settings.active_class);
+        child.addClass(this.settings.active_class);
+        this.settings.onchange(child.text());
+    };
+
+    $.fn.metroSelect = function(options) {
+        var select = $(this);
+
+        if (!select.data('metroSelect')) {
+            var metroSelect = new MetroSelect(select, options);
+            select.data('metroSelect', metroSelect);
+            metroSelect.init(select);
+
+            return metroSelect;
+        } else {
+            return select.data('metroSelect');
+        }
     };
 }));

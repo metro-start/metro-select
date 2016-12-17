@@ -1,21 +1,31 @@
 <html>
     <head>
-        <script src="lib/jquery/dist/jquery.js" type="text/javascript"></script>
-        <script src="lib/jss/jss.js" type="text/javascript"></script>
+        <script src="node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
+        <script src="node_modules/jss/jss.js" type="text/javascript"></script>
         <script src="metro-select.js"></script>
         <style type="text/css">
-            .sel-opt {
+            .ms-opt {
                 margin-right: 5px;
             }
         </style>
     </head>
     <body>
-        <select id="select-box" selectedIndex="0">
+        <div>
+        <select id="select-box">
             <option>celcius</option>
             <option>fahrenheit</option>
         </select>
+</div>
+<div>
+        <select id="mySelect">
+            <option>celcius</option>
+            <option>fahrenheit</option>
+        </select>
+        </div>
         <script type="text/javascript">
-            $("select").metroSelect({
+            $("#select-box").metroSelect({
+                initial: 'fahrenheit',
+                option_class: 'ms-opt',
                 onchange: function(a) {
                     console.log(a);
                 }

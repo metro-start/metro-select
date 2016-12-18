@@ -26,19 +26,21 @@
   };
 
   function MetroSelect(select, options) {
-        this.settings = $.extend(defaults, options);
+        this.select = select;
+        this.settings = $.extend({}, defaults, options);
         this.metroSelect = $("<div class='" + this.settings.container_class + "'></div>");
     }
 
-    MetroSelect.prototype.init = function(select) {
-        select.parent().append(this.metroSelect);
-        select.hide();
+    MetroSelect.prototype.init = function() {
+        this.select.parent().append(this.metroSelect);
+        this.select.hide();
 
-        var children = select.children();
+        var children = this.select.children();
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            var childElement = $("<span class='" + this.settings.option_class + "'>" + children[i].text + "</span>");
-            childElement.click(this.select_child.bind(this, children[i].text));
+            var childElement = $("<span class='" + this.settings.option_class + "'>" + child.text + "</span>");
+            console.log("binding " + child.text + " to " + this.settings.initial);
+            childElement.click(this.select_child.bind(this, child.text));
 
             this.metroSelect.append(childElement);
         }

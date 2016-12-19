@@ -39,7 +39,6 @@
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
             var childElement = $("<span class='" + this.settings.option_class + "'>" + child.text + "</span>");
-            console.log("binding " + child.text + " to " + this.settings.initial);
             childElement.click(this.select_child.bind(this, child.text));
 
             this.metroSelect.append(childElement);

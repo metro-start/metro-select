@@ -1,6 +1,6 @@
 {
   "name": "metro-select",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "main": "metro-select.js",
   "dependencies": {
     "grunt-contrib-jshint": "^1.1.0",

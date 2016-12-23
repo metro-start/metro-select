@@ -62,6 +62,7 @@
 
     MetroSelect.prototype.select_child = function(childText) {
         var selectedChild = this.metroSelect.find(":contains('" + childText + "')");
+        selectedChild = selectedChild.filter(function() { return $(this).text() === childText; });
         if (selectedChild.length === 0) {
             selectedChild = this.metroSelect.find(">:first-child");
         }

@@ -1,9 +1,0 @@
-{
-    "name": "metro-select",
-    "version": "0.2",
-    "main": "metro-select.js",
-    "dependencies": {
-        "jquery": "*",
-        "jss": "*"
-    }
-}

@@ -22,6 +22,9 @@
     active_class      : 'metroselect-active',
     option_class      : 'metroselect-option',
     container_class   : 'metroselect-container',
+    guide_class       : 'metroselect-guide',
+    guide_text_left   : '[',
+    guide_text_right  : ']',
     onchange          : function(){}
   };
 
@@ -35,25 +38,41 @@
         this.select.parent().append(this.metroSelect);
         this.select.hide();
 
+        var childContainer = $("<span></span>");
         var children = this.select.children();
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
             var childElement = $("<span class='" + this.settings.option_class + " " + child.className + "'>" + child.text + "</span>");
             childElement.click(this.select_child.bind(this, child.text));
 
-            this.metroSelect.append(childElement);
+            childContainer.append(childElement);
         }
+
+        this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_left + "</span>"));
+        this.metroSelect.append(childContainer);
+        this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_right + "</span>"));
 
         jss.set('.' + this.settings.option_class, {
             'display': 'inline',
             'cursor': 'pointer',
             'opacity': '0.5',
             'margin-right': '3%',
-            '-webkit-transition': 'opacity .25s linear',
+            'transition': 'opacity .25s linear',
+            '-webkit-transition': 'opacity .25s linear'
+        });
+        jss.set('.' + this.settings.option_class + ':last-child', {
+            'margin-right': '0',
         });
         jss.set('.' + this.settings.active_class, {
             'opacity': '1',
+            'transition': 'opacity .25s linear',
             '-webkit-transition': 'opacity .25s linear'
+        });
+        jss.set('.' + this.settings.guide_class + ':first-child', {
+            'margin-right': '3%',
+        });
+        jss.set('.' + this.settings.guide_class + ':last-child', {
+            'margin-left': '3%',
         });
 
         //set the default visibilities

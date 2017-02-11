@@ -46,11 +46,11 @@
             var childElement = $("<span class='" + this.settings.option_class + " " + child.className + "'>" + child.text + "</span>");
             childElement.click(this.select_child.bind(this, child.text));
 
-            childContainer.append(childElement);
+            this.childContainer.append(childElement);
         }
 
         this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_left + "</span>"));
-        this.metroSelect.append(childContainer);
+        this.metroSelect.append(this.childContainer);
         this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_right + "</span>"));
 
         jss.set('.' + this.settings.option_class, {

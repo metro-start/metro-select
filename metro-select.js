@@ -19,6 +19,7 @@
   var defaults = {
     initial           : '',
     peeking           : 2,
+    margins           : '8px',
     active_class      : 'metroselect-active',
     option_class      : 'metroselect-option',
     container_class   : 'metroselect-container',
@@ -54,15 +55,13 @@
         this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_right + "</span>"));
 
         jss.set('.' + this.settings.option_class, {
-            'display': 'inline',
+            'display': 'inline-block',
             'cursor': 'pointer',
             'opacity': '0.5',
-            'margin-right': '3%',
+            'margin-left': this.settings.margins,
+            'margin-right': this.settings.margins,
             'transition': 'opacity .25s linear',
             '-webkit-transition': 'opacity .25s linear'
-        });
-        jss.set('.' + this.settings.option_class + ':last-child', {
-            'margin-right': '0',
         });
         jss.set('.' + this.settings.active_class, {
             'opacity': '1',
@@ -70,10 +69,10 @@
             '-webkit-transition': 'opacity .25s linear'
         });
         jss.set('.' + this.settings.guide_class + ':first-child', {
-            'margin-right': '3%',
+            'margin-right': this.settings.margins,
         });
         jss.set('.' + this.settings.guide_class + ':last-child', {
-            'margin-left': '3%',
+            'margin-left': this.settings.margins,
         });
 
         //set the default visibilities

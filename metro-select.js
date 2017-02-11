@@ -32,13 +32,14 @@
         this.select = select;
         this.settings = $.extend({}, defaults, options);
         this.metroSelect = $("<div class='" + this.settings.container_class + "'></div>");
+        this.childContainer = $("<span></span>");
     }
 
     MetroSelect.prototype.init = function() {
         this.select.parent().append(this.metroSelect);
         this.select.hide();
 
-        var childContainer = $("<span></span>");
+        this.childContainer = $("<span></span>");
         var children = this.select.children();
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
@@ -80,10 +81,10 @@
     };
 
     MetroSelect.prototype.select_child = function(childText) {
-        var selectedChild = this.metroSelect.find(":contains('" + childText + "')");
+        var selectedChild = this.childContainer.find(":contains('" + childText + "')");
         selectedChild = selectedChild.filter(function() { return $(this).text() === childText; });
         if (selectedChild.length === 0) {
-            selectedChild = this.metroSelect.find(">:first-child");
+            selectedChild = this.childContainer.find(">:first-child");
         }
 
         var child = $(selectedChild);

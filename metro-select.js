@@ -1,42 +1,41 @@
 // This function is called immediately. The second function is passed in
 // as the factory parameter to this function.
 (function (factory) {
-  // If there is a variable named module and it has an exports property,
-  // then we're working in a Node-like environment. Use require to load
-  // the jQuery object that the module system is using and pass it in.
-  if(typeof module === "object" && typeof module.exports === "object") {
-    factory(require("jquery"), require("jss"), window, document);
-  }
-  // Otherwise, we're working in a browser, so just pass in the global
-  // jQuery object.
-  else {
-    factory(jQuery, jss, window, document);
-  }
-}(function($, jss, window, document, undefined) {
-  // This code will receive whatever jQuery object was passed in from
-  // the function above and will attach the plugin to it.
+    // If there is a variable named module and it has an exports property,
+    // then we're working in a Node-like environment. Use require to load
+    // the jQuery object that the module system is using and pass it in.
+    if (typeof module === "object" && typeof module.exports === "object") {
+        factory(require("jquery"), require("jss"), window, document);
+    }
+    // Otherwise, we're working in a browser, so just pass in the global
+    // jQuery object.
+    else {
+        factory(jQuery, jss, window, document);
+    }
+}(function ($, jss, window, document, undefined) {
+    // This code will receive whatever jQuery object was passed in from
+    // the function above and will attach the plugin to it.
+    var first = true;
+    var defaults = {
+        initial: '',
+        margins: '8px',
+        active_class: 'metroselect-active',
+        option_class: 'metroselect-option',
+        container_class: 'metroselect-container',
+        guide_class: 'metroselect-guide',
+        guide_text_left: '[',
+        guide_text_right: ']',
+        onchange: function () { }
+    };
 
-  var defaults = {
-    initial           : '',
-    peeking           : 2,
-    margins           : '8px',
-    active_class      : 'metroselect-active',
-    option_class      : 'metroselect-option',
-    container_class   : 'metroselect-container',
-    guide_class       : 'metroselect-guide',
-    guide_text_left   : '[',
-    guide_text_right  : ']',
-    onchange          : function(){}
-  };
-
-  function MetroSelect(select, options) {
+    function MetroSelect(select, options) {
         this.select = select;
         this.settings = $.extend({}, defaults, options);
         this.metroSelect = $("<div class='" + this.settings.container_class + "'></div>");
         this.childContainer = $("<span></span>");
     }
 
-    MetroSelect.prototype.init = function() {
+    MetroSelect.prototype.init = function () {
         this.select.parent().append(this.metroSelect);
         this.select.hide();
 
@@ -79,9 +78,9 @@
         this.select_child(this.settings.initial);
     };
 
-    MetroSelect.prototype.select_child = function(childText) {
+    MetroSelect.prototype.select_child = function (childText) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        selectedChild = selectedChild.filter(function() { return $(this).text() === childText; });
+        selectedChild = selectedChild.filter(function () { return $(this).text() === childText; });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }
@@ -89,10 +88,15 @@
         var child = $(selectedChild);
         child.siblings().removeClass(this.settings.active_class);
         child.addClass(this.settings.active_class);
-        this.settings.onchange(child.text());
+
+        if (first) {
+            first = false;
+        } else {
+            this.settings.onchange(child.text());
+        }
     };
 
-    $.fn.metroSelect = function(options) {
+    $.fn.metroSelect = function (options) {
         var select = $(this);
 
         if (!select.data('metroSelect')) {

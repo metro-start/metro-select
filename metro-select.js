@@ -35,6 +35,7 @@
         this.childContainer = $("<span></span>");
     }
 
+    // Initialize and replace DOM elements.
     MetroSelect.prototype.init = function () {
         this.select.parent().append(this.metroSelect);
         this.select.hide();
@@ -75,10 +76,17 @@
         });
 
         //set the default visibilities
-        this.select_child(this.settings.initial);
+        this.set_active(this.settings.initial);
+    };
+    
+    // Make cihldText the active item and trigger callbacks.
+    MetroSelect.prototype.select_child = function (childText) {
+        this.set_active(childText);
+        this.settings.onchange(childText);
     };
 
-    MetroSelect.prototype.select_child = function (childText) {
+    // Make childText the acitve item.
+    MetroSelect.prototype.set_active = function (childText) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
         selectedChild = selectedChild.filter(function () { return $(this).text() === childText; });
         if (selectedChild.length === 0) {
@@ -88,12 +96,6 @@
         var child = $(selectedChild);
         child.siblings().removeClass(this.settings.active_class);
         child.addClass(this.settings.active_class);
-
-        if (first) {
-            first = false;
-        } else {
-            this.settings.onchange(child.text());
-        }
     };
 
     $.fn.metroSelect = function (options) {

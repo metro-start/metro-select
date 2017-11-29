@@ -82,7 +82,7 @@
     // Make cihldText the active item and trigger callbacks.
     MetroSelect.prototype.select_child = function (childText) {
         this.set_active(childText);
-        this.settings.onchange(child.text());
+        this.settings.onchange(childText);
     };
 
     // Make childText the acitve item.

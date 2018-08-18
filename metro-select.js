@@ -25,7 +25,7 @@
         guide_class: 'metroselect-guide',
         guide_text_left: '[',
         guide_text_right: ']',
-        onchange: function () { }
+        onchange: function () {}
     };
 
     function MetroSelect(select, options) {
@@ -44,7 +44,7 @@
         var children = this.select.children();
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            var childElement = $("<span class='" + this.settings.option_class + " " + child.className + "'>" + child.text + "</span>");
+            var childElement = $(`<span class='${this.settings.option_class} ${child.className}' ${child.style.cssText !== '' ? `style='${child.style.cssText}'` : ''}>${child.text}</span>`);
             childElement.click(this.select_child.bind(this, child.text));
 
             this.childContainer.append(childElement);
@@ -78,7 +78,7 @@
         //set the default visibilities
         this.set_active(this.settings.initial);
     };
-    
+
     // Make cihldText the active item and trigger callbacks.
     MetroSelect.prototype.select_child = function (childText) {
         this.set_active(childText);
@@ -88,7 +88,9 @@
     // Make childText the acitve item.
     MetroSelect.prototype.set_active = function (childText) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        selectedChild = selectedChild.filter(function () { return $(this).text() === childText; });
+        selectedChild = selectedChild.filter(function () {
+            return $(this).text() === childText;
+        });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }

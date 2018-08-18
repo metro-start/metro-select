@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <script src="node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
     <script src="node_modules/jss/jss.js" type="text/javascript"></script>
@@ -11,19 +12,23 @@
         .sample_class {
             font-weight: bold;
         }
+
+        .green {
+            color: green;
+        }
     </style>
 </head>
 
 <body>
     <div>
         <select id="select-box">
-            <option>celcius</option>
+            <option style="color:red">celcius</option>
             <option class="sample_class">fahrenheit</option>
         </select>
     </div>
     <div>
-        <select id="mySelect">
-            <option>celcius</option>
+        <select>
+            <option class='green'>celcius</option>
             <option>fahrenheit</option>
         </select>
 
@@ -46,4 +51,5 @@
         });
     </script>
 </body>
+
 </html>

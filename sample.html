@@ -22,8 +22,9 @@
 <body>
     <div>
         <select id="select-box">
-            <option style="color:red">celcius</option>
+            <option class="removeable" style="color:red">celcius</option>
             <option class="sample_class">fahrenheit</option>
+            <option class="removeable removed">kelvin</option>
         </select>
     </div>
     <div>
@@ -42,7 +43,10 @@
             initial: 'fahrenheit',
             option_class: 'ms-opt',
             onchange: function (a) {
-                console.log(a);
+                console.log("a", a);
+            },
+            onvisibilitychange: function(a, b) {
+                console.log("a", a, "b", b)
             }
         });
 

@@ -19,13 +19,18 @@
     var defaults = {
         initial: '',
         margins: '8px',
+        added_class: '',
+        removed_class: '',
+        add_text: '[+]',
+        remove_text: '[x]',
         active_class: 'metroselect-active',
         option_class: 'metroselect-option',
         container_class: 'metroselect-container',
         guide_class: 'metroselect-guide',
         guide_text_left: '[',
         guide_text_right: ']',
-        onchange: function () {}
+        onchange: function () {},
+        onvisibilitychange: function() {}
     };
 
     function MetroSelect(select, options) {
@@ -46,6 +51,21 @@
             var child = children[i];
             var childElement = $(`<span class='${this.settings.option_class} ${child.className}' ${child.style.cssText !== '' ? `style='${child.style.cssText}'` : ''}>${child.text}</span>`);
             childElement.click(this.select_child.bind(this, child.text));
+
+            if (child.className.includes('removeable')) {
+                var addElement = $(`<span class='option'>${this.settings.add_text}</span>`);
+                var removeElement = $(`<span class='option remove hide'>${this.settings.remove_text}</span>`);
+                addElement.click(this.add_child.bind(this, child.text, addElement, removeElement));
+                removeElement.click(this.remove_child.bind(this, child.text, addElement, removeElement));
+
+                if (child.className.includes('removed')) {
+                    removeElement.css('display', 'none'); 
+                } else {
+                    addElement.css('display', 'none');
+                }
+                childElement.append(addElement);
+                childElement.append(removeElement);
+            }
 
             this.childContainer.append(childElement);
         }
@@ -82,22 +102,53 @@
     // Make cihldText the active item and trigger callbacks.
     MetroSelect.prototype.select_child = function (childText) {
         this.set_active(childText);
-        this.settings.onchange(childText);
+        if (this.settings.onchange) {
+            this.settings.onchange(childText);
+        }
+    };
+
+    // Make cihldText the active item and trigger callbacks.
+    MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
+        console.log(addElem, removeElem);
+        this.set_class(childText, this.settings.removed_class, this.settings.added_class);
+        addElem.css('display', 'none');
+        removeElem.css('display', 'initial');
+        if (!!this.settings.onvisibilitychange) {
+            this.settings.onvisibilitychange(childText, true);
+        }
+    };
+
+    // Make cihldText the active item and trigger callbacks.
+    MetroSelect.prototype.remove_child = function (childText, addElem, removeElem) {
+        this.set_class(childText, this.settings.added_class, this.settings.removed_class);
+        addElem.css('display', 'initial');
+        removeElem.css('display', 'none');
+        if (!!this.settings.onvisibilitychange) {
+            this.settings.onvisibilitychange(childText, false);
+        }
     };
 
     // Make childText the acitve item.
     MetroSelect.prototype.set_active = function (childText) {
+        this.set_class(childText, this.settings.active_class, this.settings.active_class);
+    };
+
+
+    // Make childText the acitve item.
+    MetroSelect.prototype.set_class = function (childText, oldClass, newClass) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        selectedChild = selectedChild.filter(function () {
-            return $(this).text() === childText;
-        });
+        console.log('select', this.childContainer, 'text', selectedChild);
+        // selectedChild = selectedChild.filter(function () {
+        //     console.log('why', $(this).text());
+        //     return $(this).text() === childText;
+        // });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }
 
         var child = $(selectedChild);
-        child.siblings().removeClass(this.settings.active_class);
-        child.addClass(this.settings.active_class);
+        child.siblings().removeClass(oldClass);
+        child.addClass(newClass);
     };
 
     $.fn.metroSelect = function (options) {

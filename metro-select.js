@@ -23,6 +23,7 @@
         removed_class: '',
         add_text: '[+]',
         remove_text: '[x]',
+        adder_remover_class: '',
         active_class: 'metroselect-active',
         option_class: 'metroselect-option',
         container_class: 'metroselect-container',
@@ -53,8 +54,8 @@
             childElement.click(this.select_child.bind(this, child.text));
 
             if (child.className.includes('removeable')) {
-                var addElement = $(`<span class='option'>${this.settings.add_text}</span>`);
-                var removeElement = $(`<span class='option remove hide'>${this.settings.remove_text}</span>`);
+                var addElement = $(`<span class='${this.settings.adder_remover_class}'>${this.settings.add_text}</span>`);
+                var removeElement = $(`<span class='${this.settings.adder_remover_class}'>${this.settings.remove_text}</span>`);
                 addElement.click(this.add_child.bind(this, child.text, addElement, removeElement));
                 removeElement.click(this.remove_child.bind(this, child.text, addElement, removeElement));
 

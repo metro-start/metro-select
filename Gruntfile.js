@@ -8,7 +8,10 @@ module.exports = function (grunt) {
         jshint: {
             all: [
                 "*.js"
-            ]
+            ],
+            options: {
+                jshintrc: '.jshintrc'
+            }
         }
     });
 

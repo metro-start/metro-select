@@ -31,7 +31,7 @@
         guide_text_left: '[',
         guide_text_right: ']',
         onchange: function () {},
-        onvisibilitychange: function() {}
+        onvisibilitychange: function() { return true; }
     };
 
     function MetroSelect(select, options) {
@@ -112,20 +112,30 @@
     MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
         console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
-        addElem.css('display', 'none');
-        removeElem.css('display', 'initial');
         if (!!this.settings.onvisibilitychange) {
-            this.settings.onvisibilitychange(childText, true);
+            if (this.settings.onvisibilitychange(childText, true)) {
+                addElem.css('display', 'none');
+                removeElem.css('display', 'initial');
+            }
+        } else {
+            addElem.css('display', 'none');
+            removeElem.css('display', 'initial');    
         }
     };
 
     // Make cihldText the active item and trigger callbacks.
     MetroSelect.prototype.remove_child = function (childText, addElem, removeElem) {
         this.set_class(childText, this.settings.added_class, this.settings.removed_class);
-        addElem.css('display', 'initial');
-        removeElem.css('display', 'none');
         if (!!this.settings.onvisibilitychange) {
-            this.settings.onvisibilitychange(childText, false);
+            console.log('vals', 'valsy');
+            if (this.settings.onvisibilitychange(childText, false)) {
+                console.log('vals');
+                addElem.css('display', 'initial');
+                removeElem.css('display', 'none');
+            }
+        } else {
+            addElem.css('display', 'initial');
+            removeElem.css('display', 'none');    
         }
     };
 

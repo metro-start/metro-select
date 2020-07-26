@@ -16,6 +16,12 @@
         .green {
             color: green;
         }
+        .added {
+            color: blue;
+        }
+        .removed {
+            color: pink;
+        }
     </style>
 </head>
 
@@ -25,6 +31,7 @@
             <option class="removeable" style="color:red">celcius</option>
             <option class="sample_class">fahrenheit</option>
             <option class="removeable removed">kelvin</option>
+            <option class="removeable">centigrade</option>
         </select>
     </div>
     <div>
@@ -42,12 +49,15 @@
         $("#select-box").metroSelect({
             initial: 'fahrenheit',
             option_class: 'ms-opt',
+            add_text: '  [s]',
+            parent_added_class: 'added',
+            parent_removed_class: 'removed',
             onchange: function (a) {
-                console.log("a", a);
+                console.log("change", a);
             },
             onvisibilitychange: function(a, b, cb) {
-                console.log("a", a, "b", b);
-                cb(a == 'kelvin');
+                console.log("visibility changed", a, "b", b);
+                cb(a == 'kelvin' || a == 'centigrade');
             }
         });
 

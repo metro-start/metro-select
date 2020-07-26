@@ -21,6 +21,8 @@
         margins: '8px',
         added_class: '',
         removed_class: '',
+        parent_added_class: '',
+        parent_removed_class: '',
         add_text: '[+]',
         remove_text: '[x]',
         adder_remover_class: '',
@@ -60,9 +62,11 @@
                 removeElement.click(this.remove_child.bind(this, child.text, addElement, removeElement));
 
                 if (child.className.includes('removed')) {
-                    removeElement.css('display', 'none'); 
+                    removeElement.addClass('hide-button'); 
+                    childElement.addClass(this.settings.parent_removed_class);
                 } else {
-                    addElement.css('display', 'none');
+                    addElement.addClass('hide-button');
+                    childElement.addClass(this.settings.parent_added_class);
                 }
                 childElement.append(addElement);
                 childElement.append(removeElement);
@@ -95,12 +99,15 @@
         jss.set('.' + this.settings.guide_class + ':last-child', {
             'margin-left': this.settings.margins,
         });
+        jss.set(`.hide-button`, {
+            'display': 'none'
+        });
 
         //set the default visibilities
         this.set_active(this.settings.initial);
     };
 
-    // Make cihldText the active item and trigger callbacks.
+    // Change the selected tab.
     MetroSelect.prototype.select_child = function (childText) {
         this.set_active(childText);
         if (this.settings.onchange) {
@@ -108,53 +115,56 @@
         }
     };
 
-    // Make cihldText the active item and trigger callbacks.
+    // The add tab button was clicked.
     MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
-        console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
         if (!!this.settings.onvisibilitychange) {
+            const that = this;
             this.settings.onvisibilitychange(childText, true, function(res) {
-                if (res) {
-                    addElem.css('display', 'none');
-                    removeElem.css('display', 'initial');
-                }
+                if (res) { that.setAddRemoveVisibility(addElem, removeElem, true); } 
             });
         } else {
-            addElem.css('display', 'none');
-            removeElem.css('display', 'initial');    
+            this.setAddRemoveVisibility(addElem, removeElem, true);
         }
     };
 
-    // Make cihldText the active item and trigger callbacks.
+    // The remove tab button was clicked.
     MetroSelect.prototype.remove_child = function (childText, addElem, removeElem) {
         this.set_class(childText, this.settings.added_class, this.settings.removed_class);
         if (!!this.settings.onvisibilitychange) {
+            const that = this;
             this.settings.onvisibilitychange(childText, false, function(res) {
-                if (res) {
-                    addElem.css('display', 'initial');
-                    removeElem.css('display', 'none');
-                }
+                if (res) { that.setAddRemoveVisibility(addElem, removeElem, false); }
             });
         } else {
-            addElem.css('display', 'initial');
-            removeElem.css('display', 'none');    
+            this.setAddRemoveVisibility(addElem, removeElem, false);
         }
     };
 
-    // Make childText the acitve item.
+    // Show or hide the add/remove tab buttons.
+    MetroSelect.prototype.setAddRemoveVisibility = function(addElem, removeElem, visible) {
+        if (visible) {
+            addElem.addClass('hide-button');        // hide add button
+            removeElem.removeClass('hide-button');  // show remove button
+            addElem.parent().addClass(this.settings.parent_added_class);
+            addElem.parent().removeClass(this.settings.parent_removed_class);
+        } else {
+            addElem.removeClass('hide-button');     // show add button
+            removeElem.addClass('hide-button');     // hide remove button
+            addElem.parent().addClass(this.settings.parent_removed_class);
+            addElem.parent().removeClass(this.settings.parent_added_class);
+        }
+    },
+
+    // Change the active item.
     MetroSelect.prototype.set_active = function (childText) {
         this.set_class(childText, this.settings.active_class, this.settings.active_class);
     };
 
 
-    // Make childText the acitve item.
+    // Set the class of the active item.
     MetroSelect.prototype.set_class = function (childText, oldClass, newClass) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        console.log('select', this.childContainer, 'text', selectedChild);
-        // selectedChild = selectedChild.filter(function () {
-        //     console.log('why', $(this).text());
-        //     return $(this).text() === childText;
-        // });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }

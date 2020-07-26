@@ -113,10 +113,12 @@
         console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
         if (!!this.settings.onvisibilitychange) {
-            if (this.settings.onvisibilitychange(childText, true)) {
-                addElem.css('display', 'none');
-                removeElem.css('display', 'initial');
-            }
+            this.settings.onvisibilitychange(childText, true, function(res) {
+                if (res) {
+                    addElem.css('display', 'none');
+                    removeElem.css('display', 'initial');
+                }
+            });
         } else {
             addElem.css('display', 'none');
             removeElem.css('display', 'initial');    
@@ -127,12 +129,12 @@
     MetroSelect.prototype.remove_child = function (childText, addElem, removeElem) {
         this.set_class(childText, this.settings.added_class, this.settings.removed_class);
         if (!!this.settings.onvisibilitychange) {
-            console.log('vals', 'valsy');
-            if (this.settings.onvisibilitychange(childText, false)) {
-                console.log('vals');
-                addElem.css('display', 'initial');
-                removeElem.css('display', 'none');
-            }
+            this.settings.onvisibilitychange(childText, false, function(res) {
+                if (res) {
+                    addElem.css('display', 'initial');
+                    removeElem.css('display', 'none');
+                }
+            });
         } else {
             addElem.css('display', 'initial');
             removeElem.css('display', 'none');    

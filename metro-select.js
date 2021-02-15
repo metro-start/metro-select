@@ -117,6 +117,7 @@
 
     // The add tab button was clicked.
     MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
+        // console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
         if (!!this.settings.onvisibilitychange) {
             const that = this;
@@ -165,6 +166,11 @@
     // Set the class of the active item.
     MetroSelect.prototype.set_class = function (childText, oldClass, newClass) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
+        // console.log('select', this.childContainer, 'text', selectedChild);
+        // selectedChild = selectedChild.filter(function () {
+        //     console.log('why', $(this).text());
+        //     return $(this).text() === childText;
+        // });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }

@@ -109,7 +109,7 @@
 
     // Make cihldText the active item and trigger callbacks.
     MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
-        console.log(addElem, removeElem);
+        // console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
         addElem.css('display', 'none');
         removeElem.css('display', 'initial');
@@ -137,7 +137,7 @@
     // Make childText the acitve item.
     MetroSelect.prototype.set_class = function (childText, oldClass, newClass) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        console.log('select', this.childContainer, 'text', selectedChild);
+        // console.log('select', this.childContainer, 'text', selectedChild);
         // selectedChild = selectedChild.filter(function () {
         //     console.log('why', $(this).text());
         //     return $(this).text() === childText;

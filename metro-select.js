@@ -104,7 +104,6 @@
 
         jss.set('.metroselect-remove', {
             'display': 'inline-block',
-            'margin': '0 2px',
             'transform': 'rotate(45deg)'
         });
 

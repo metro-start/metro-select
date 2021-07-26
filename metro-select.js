@@ -19,13 +19,13 @@
     var defaults = {
         initial: '',
         margins: '8px',
-        added_class: '',
-        removed_class: '',
-        parent_added_class: '',
-        parent_removed_class: '',
+        added_class: 'metroselect-added',
+        removed_class: 'metroselect-removed',
+        parent_added_class: 'metroselect-parent-added',
+        parent_removed_class: 'metroselect-parent-removed',
         add_text: '[+]',
-        remove_text: '[x]',
-        adder_remover_class: '',
+        remove_text: '[<span class="metroselect-remove">+</span>]',
+        add_remove_class: 'add-remove',
         active_class: 'metroselect-active',
         option_class: 'metroselect-option',
         container_class: 'metroselect-container',
@@ -52,20 +52,25 @@
         var children = this.select.children();
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            var childElement = $(`<span class='${this.settings.option_class} ${child.className}' ${child.style.cssText !== '' ? `style='${child.style.cssText}'` : ''}>${child.text}</span>`);
-            childElement.click(this.select_child.bind(this, child.text));
+            var childElement = $(`<span class='metro-select-child' ${child.style.cssText !== '' ? `style='${child.style.cssText}'` : ''}></span>`);
+
+            var labelElement = $(`<span class='label ${this.settings.option_class} ${child.className}'>${child.text}</span>`);
+            labelElement.click(this.select_child.bind(this, child.text));
+            childElement.append(labelElement);
 
             if (child.className.includes('removeable')) {
-                var addElement = $(`<span class='${this.settings.adder_remover_class}'>${this.settings.add_text}</span>`);
-                var removeElement = $(`<span class='${this.settings.adder_remover_class}'>${this.settings.remove_text}</span>`);
+                var addElement = $(`<span class='metroselect-addremove ${this.settings.add_remove_class}'>${this.settings.add_text}</span>`);
+                var removeElement = $(`<span class='metroselect-addremove ${this.settings.add_remove_class}'>${this.settings.remove_text}</span>`);
                 addElement.click(this.add_child.bind(this, child.text, addElement, removeElement));
                 removeElement.click(this.remove_child.bind(this, child.text, addElement, removeElement));
 
                 if (child.className.includes('removed')) {
                     removeElement.addClass('hide-button'); 
+                    childElement.removeClass(this.settings.parent_added_class);
                     childElement.addClass(this.settings.parent_removed_class);
                 } else {
                     addElement.addClass('hide-button');
+                    childElement.removeClass(this.settings.parent_removed_class);
                     childElement.addClass(this.settings.parent_added_class);
                 }
                 childElement.append(addElement);
@@ -79,14 +84,33 @@
         this.metroSelect.append(this.childContainer);
         this.metroSelect.append($("<span class='" + this.settings.guide_class + "'>" + this.settings.guide_text_right + "</span>"));
 
-        jss.set('.' + this.settings.option_class, {
+        jss.set('.metro-select-child', {
             'display': 'inline-block',
+            'margin-left': this.settings.margins,
+            'margin-right': this.settings.margins
+        });
+
+        jss.set('.' + this.settings.option_class, {
             'cursor': 'pointer',
             'opacity': '0.5',
-            'margin-left': this.settings.margins,
-            'margin-right': this.settings.margins,
             'transition': 'opacity .25s linear',
             '-webkit-transition': 'opacity .25s linear'
+        });
+
+        jss.set('.metroselect-addremove', {
+            'font-weight': 'bold',
+            'cursor': 'pointer'
+        });
+
+        jss.set('.metroselect-remove', {
+            'display': 'inline-block',
+            'margin': '0 2px',
+            'transform': 'rotate(45deg)'
+        });
+
+        jss.set(`.metro-select-child .label.removed`, {
+            'text-decoration': 'line-through',
+            'pointer-events': 'none'
         });
         jss.set('.' + this.settings.active_class, {
             'opacity': '1',
@@ -117,7 +141,6 @@
 
     // The add tab button was clicked.
     MetroSelect.prototype.add_child = function (childText, addElem, removeElem) {
-        // console.log(addElem, removeElem);
         this.set_class(childText, this.settings.removed_class, this.settings.added_class);
         if (!!this.settings.onvisibilitychange) {
             const that = this;
@@ -149,34 +172,32 @@
             removeElem.removeClass('hide-button');  // show remove button
             addElem.parent().addClass(this.settings.parent_added_class);
             addElem.parent().removeClass(this.settings.parent_removed_class);
+            addElem.siblings('.label').addClass(this.settings.parent_added_class);
+            addElem.siblings('.label').removeClass(this.settings.parent_removed_class);
         } else {
             addElem.removeClass('hide-button');     // show add button
             removeElem.addClass('hide-button');     // hide remove button
             addElem.parent().addClass(this.settings.parent_removed_class);
             addElem.parent().removeClass(this.settings.parent_added_class);
+            addElem.siblings('.label').addClass(this.settings.parent_removed_class);
+            addElem.siblings('.label').removeClass(this.settings.parent_added_class);
         }
-    },
+    };
 
     // Change the active item.
     MetroSelect.prototype.set_active = function (childText) {
         this.set_class(childText, this.settings.active_class, this.settings.active_class);
     };
 
-
     // Set the class of the active item.
     MetroSelect.prototype.set_class = function (childText, oldClass, newClass) {
         var selectedChild = this.childContainer.find(":contains('" + childText + "')");
-        // console.log('select', this.childContainer, 'text', selectedChild);
-        // selectedChild = selectedChild.filter(function () {
-        //     console.log('why', $(this).text());
-        //     return $(this).text() === childText;
-        // });
         if (selectedChild.length === 0) {
             selectedChild = this.childContainer.find(">:first-child");
         }
 
         var child = $(selectedChild);
-        child.siblings().removeClass(oldClass);
+        child.siblings().children('.label').removeClass(oldClass);
         child.addClass(newClass);
     };
 

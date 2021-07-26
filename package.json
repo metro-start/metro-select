@@ -7,8 +7,8 @@
     "build": "grunt "
   },
   "dependencies": {
-    "jquery": "^3.5.1",
-    "jss": "git://github.com/Box9/jss.git"
+    "jquery": "^3.6.0",
+    "jss": "github:dvtng/jss"
   },
   "devDependencies": {
     "grunt": "^1.3.0",

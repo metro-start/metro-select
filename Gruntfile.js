@@ -1,18 +1,16 @@
 /* jshint node: true */
 
 module.exports = function (grunt) {
-    "use strict";
+    'use strict';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            all: [
-                "*.js"
-            ],
+            all: ['*.js'],
             options: {
-                jshintrc: '.jshintrc'
-            }
-        }
+                jshintrc: '.jshintrc',
+            },
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');

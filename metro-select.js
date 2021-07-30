@@ -243,23 +243,15 @@
             removeElem.removeClass('hide-button'); // show remove button
             addElem.parent().addClass(this.settings.parent_added_class);
             addElem.parent().removeClass(this.settings.parent_removed_class);
-            addElem
-                .siblings('.label')
-                .addClass(this.settings.parent_added_class);
-            addElem
-                .siblings('.label')
-                .removeClass(this.settings.parent_removed_class);
+            addElem.siblings('.label').addClass(this.settings.added_class);
+            addElem.siblings('.label').removeClass(this.settings.removed_class);
         } else {
             addElem.removeClass('hide-button'); // show add button
             removeElem.addClass('hide-button'); // hide remove button
             addElem.parent().addClass(this.settings.parent_removed_class);
             addElem.parent().removeClass(this.settings.parent_added_class);
-            addElem
-                .siblings('.label')
-                .addClass(this.settings.parent_removed_class);
-            addElem
-                .siblings('.label')
-                .removeClass(this.settings.parent_added_class);
+            addElem.siblings('.label').addClass(this.settings.removed_class);
+            addElem.siblings('.label').removeClass(this.settings.added_class);
         }
     };
 

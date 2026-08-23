@@ -1,0 +1,47 @@
+.metroselect-container {
+    align-items: center;
+    display: inline-flex;
+}
+
+.metro-select-options {
+    display: inline-flex;
+}
+
+.metro-select-child {
+    align-items: center;
+    display: inline-flex;
+    margin-inline: var(--metro-select-margin, 8px);
+}
+
+.metro-select-label,
+.metroselect-addremove {
+    appearance: none;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+}
+
+.metro-select-label {
+    opacity: 0.5;
+    transition: opacity 0.25s linear;
+}
+
+.metro-select-label.metroselect-active {
+    opacity: 1;
+}
+
+.metroselect-addremove {
+    font-weight: bold;
+}
+
+.metro-select-label.metroselect-removed {
+    pointer-events: none;
+    text-decoration: line-through;
+}
+
+.metroselect-addremove[hidden] {
+    display: none;
+}

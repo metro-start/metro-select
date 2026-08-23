@@ -1,70 +1,45 @@
-<html>
-    <head>
-        <script
-            src="node_modules/jquery/dist/jquery.js"
-            type="text/javascript"
-        ></script>
-        <script src="node_modules/jss/jss.js" type="text/javascript"></script>
-        <script src="metro-select.js"></script>
-        <style type="text/css">
-            .ms-opt {
-                margin-right: 5px;
-            }
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Metro Select demo</title>
+    <link rel="stylesheet" href="metro-select.css">
+    <style>
+        body { background: #111827; color: #f9fafb; font: 20px system-ui; margin: 4rem; }
+        .sample-option { color: #60a5fa; }
+        .disabled { color: #9ca3af; }
+    </style>
+</head>
+<body>
+    <h1>Metro Select 3</h1>
+    <select id="select-box" aria-label="Temperature unit">
+        <option class="removeable" value="celsius">celsius</option>
+        <option class="sample-option" value="fahrenheit">fahrenheit</option>
+        <option class="removeable removed" value="kelvin">kelvin</option>
+        <option class="removeable" value="centigrade">centigrade</option>
+    </select>
+    <p id="output" aria-live="polite"></p>
+    <button id="set-active" type="button">Select celsius</button>
 
-            .sample_class {
-                font-style: italic;
-            }
+    <script type="module">
+        import MetroSelect from './metro-select.js';
 
-            .green {
-                color: green;
-            }
-            .added {
-                color: blue;
-            }
-            .removed {
-                color: green;
-            }
-        </style>
-    </head>
+        const output = document.querySelector('#output');
+        const metroSelect = new MetroSelect(document.querySelector('#select-box'), {
+            initial: 'fahrenheit',
+            optionClass: 'sample-option',
+            parentRemovedClass: 'disabled',
+            onChange: (value) => output.textContent = `Selected: ${value}`,
+            onVisibilityChange: (value, visible, confirm) => {
+                output.textContent = `${visible ? 'Showing' : 'Hiding'}: ${value}`;
+                confirm(true);
+            },
+        });
 
-    <body>
-        <div>
-            <select id="select-box">
-                <option class="removeable" style="color: red">celcius</option>
-                <option class="sample_class">fahrenheit</option>
-                <option class="removeable removed">kelvin</option>
-                <option class="removeable">centigrade</option>
-            </select>
-        </div>
-        <div>
-            <select>
-                <option class="green">celcius</option>
-                <option>fahrenheit</option>
-            </select>
-        </div>
-        <div>
-            <button id="set-active">Set celcius active</button>
-        </div>
-
-        <script type="text/javascript">
-            $('#select-box').metroSelect({
-                initial: 'fahrenheit',
-                option_class: 'ms-opt',
-                add_text: '  [s]',
-                parent_added_class: 'added',
-                parent_removed_class: 'removed',
-                onchange: function (a) {
-                    console.log('change', a);
-                },
-                onvisibilitychange: function (a, b, cb) {
-                    console.log('visibility changed', a, 'b', b);
-                    cb(a == 'kelvin' || a == 'centigrade');
-                },
-            });
-
-            $('#set-active').on('click', function () {
-                $('#select-box').metroSelect().set_active('celcius');
-            });
-        </script>
-    </body>
+        document.querySelector('#set-active').addEventListener('click', () => {
+            metroSelect.select('celsius');
+        });
+    </script>
+</body>
 </html>

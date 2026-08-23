@@ -33,11 +33,16 @@ export default class MetroSelect {
         }
 
         this.selectElement = select;
+        this.selectWasHidden = select.hidden;
         this.settings = {...defaults, ...options};
         this.options = new Map();
         this.element = this.createElement('div', this.settings.containerClass);
         this.element.setAttribute('role', 'listbox');
         this.element.setAttribute('aria-label', select.getAttribute('aria-label') || select.name || 'Select an option');
+        this.handleNativeChange = () => this.select(this.selectElement.value, {
+            emit: false,
+        });
+        this.selectElement.addEventListener('change', this.handleNativeChange);
         this.render();
     }
 
@@ -137,7 +142,8 @@ export default class MetroSelect {
     }
 
     destroy() {
+        this.selectElement.removeEventListener('change', this.handleNativeChange);
         this.element.remove();
-        this.selectElement.hidden = false;
+        this.selectElement.hidden = this.selectWasHidden;
     }
 }
